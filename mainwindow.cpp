@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleTimer()
 {
-    qDebug() << QTime::currentTime().toString("mm:ss:zzz");
+    //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
     msg.sprintf("S0p%03dS1p%03dS2p%03d\r\n", pos[0], pos[1], pos[2]);
     QUdpSocket s;
@@ -39,9 +39,7 @@ void MainWindow::handleTimer()
             pos[i] -= 10;
             if(pos[i] <100)
                 md[i] = MOVE_UP;
-
         }
-
     }
 }
 
