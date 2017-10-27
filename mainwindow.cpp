@@ -4,10 +4,12 @@
 #include <QTime>
 #include <QUdpSocket>
 #include <QString>
+#include <QtMath>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    k(0)
 {
     ui->setupUi(this);
     connect(&timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
@@ -21,7 +23,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::handleTimer()
-{
+{    
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
     msg.sprintf("S0p%03dS1p%03dS2p%03d\r\n", pos[0], pos[1], pos[2]);
@@ -41,6 +43,8 @@ void MainWindow::handleTimer()
                 md[i] = MOVE_UP;
         }
     }
+    int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
+    qDebug() << (int)(maxPcnt * qAbs((qSin((k++/100.)*M_PI_2)+1)/2));
 }
 
 void MainWindow::on_pushButtonStart_clicked()

@@ -25,6 +25,7 @@ private:
     QTimer timer;
     int pos[MOTOR_COUNT];
     TMoveDir md[MOTOR_COUNT];
+    quint32 k;
 private slots:
     void handleTimer();
     void on_pushButtonStart_clicked();
