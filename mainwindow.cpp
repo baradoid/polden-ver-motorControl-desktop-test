@@ -24,9 +24,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::handleTimer()
 {    
+    int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
+    int posSin =(int)(maxPcnt * qAbs((qSin((1+ k++/100.)*M_PI_2)+1)/2));
+    qDebug() << posSin;
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
-    msg.sprintf("S0p%03dS1p%03dS2p%03d\r\n", pos[0], pos[1], pos[2]);
+    msg.sprintf("S0p%03dS1p%03dS2p%03d\r\n", posSin, posSin, posSin);
     QUdpSocket s;
     if(s.writeDatagram(msg.toLatin1(), QHostAddress::LocalHost, 8051) == -1)
         qDebug() << "sendErr";
@@ -43,8 +46,7 @@ void MainWindow::handleTimer()
                 md[i] = MOVE_UP;
         }
     }
-    int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
-    qDebug() << (int)(maxPcnt * qAbs((qSin((k++/100.)*M_PI_2)+1)/2));
+
 }
 
 void MainWindow::on_pushButtonStart_clicked()
