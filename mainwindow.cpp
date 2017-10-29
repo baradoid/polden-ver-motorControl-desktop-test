@@ -25,7 +25,7 @@ MainWindow::~MainWindow()
 void MainWindow::handleTimer()
 {    
     int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
-    int posSin =(int)(maxPcnt * qAbs((qSin((1+ k++/100.)*M_PI_2)+1)/2));
+    int posSin =(int)(maxPcnt * (qCos((k++/100.)*M_PI)-1)/-2);
     qDebug() << posSin;
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
@@ -63,6 +63,7 @@ void MainWindow::on_pushButtonStart_clicked()
 
 void MainWindow::on_pushButtonReset_clicked()
 {
+    k = 0;
     for(int i=0; i<MOTOR_COUNT; i++){
         pos[i] = 0;
         md[i] = MOVE_UP;
