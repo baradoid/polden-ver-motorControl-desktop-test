@@ -29,7 +29,20 @@ void MainWindow::handleTimer()
     qDebug() << posSin;
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
-    msg.sprintf("S0p%03dS1p%03dS2p%03d\r\n", posSin, posSin, posSin);
+    QString ss;
+    ss.sprintf("S0p%03d", posSin);
+//    msg.sprintf("S0p%03dS1p%03dS2p%03dS2p%03dS2p%03dS2p%03dS2p%03dS2p%03d\r\n",
+//                posSin,
+//                posSin,
+//                posSin,
+//                posSin,
+//                posSin,
+//                posSin,
+//                posSin);
+    for(int i=0;i<10;i++){
+        msg.append(ss);
+    }
+    msg.append("\r\n");
     QUdpSocket s;
     if(s.writeDatagram(msg.toLatin1(), QHostAddress::LocalHost, 8051) == -1)
         qDebug() << "sendErr";
