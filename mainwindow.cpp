@@ -60,6 +60,7 @@ void MainWindow::handleTimer()
         }
     }
 
+    ui->lineCurrenHeight->setText(QString::number(pos[0]));
 }
 
 void MainWindow::on_pushButtonStart_clicked()
@@ -81,4 +82,5 @@ void MainWindow::on_pushButtonReset_clicked()
         pos[i] = 0;
         md[i] = MOVE_UP;
     }
+    ui->lineCurrenHeight->setText(QString::number(pos[0]));
 }
