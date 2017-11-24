@@ -25,7 +25,7 @@ MainWindow::~MainWindow()
 void MainWindow::handleTimer()
 {    
     int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
-    int posSin =(int)(maxPcnt * (qCos((k++/100.)*M_PI)-1)/-2);
+    int posSin =(int)(maxPcnt * (qCos((k++/40.)*M_PI)-1)/-2);
     qDebug() << posSin;
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
