@@ -7,7 +7,7 @@
 namespace Ui {
 class MainWindow;
 }
-#define MOTOR_COUNT 3
+#define MOTOR_COUNT 8
 typedef enum {
     MOVE_UP, MOVE_DOWN
 } TMoveDir;
@@ -25,7 +25,9 @@ private:
     QTimer timer;
     int pos[MOTOR_COUNT];
     TMoveDir md[MOTOR_COUNT];
-    quint32 k;
+    quint32 motPhase[MOTOR_COUNT];
+    quint32 skipPhase[MOTOR_COUNT];
+    //quint32 k;
 private slots:
     void handleTimer();
     void on_pushButtonStart_clicked();

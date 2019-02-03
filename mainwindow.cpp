@@ -8,8 +8,7 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    k(0)
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     connect(&timer, SIGNAL(timeout()), this, SLOT(handleTimer()));
@@ -25,12 +24,10 @@ MainWindow::~MainWindow()
 void MainWindow::handleTimer()
 {    
     int maxPcnt = ui->lineEditMaxPcnt->text().toInt();
-    int posSin =(int)(maxPcnt * (qCos((k++/60.)*M_PI)-1)/-2);
-    qDebug() << posSin;
+
+    //qDebug() << posSin;
     //qDebug() << QTime::currentTime().toString("mm:ss:zzz");
     QString msg;
-    QString ss;
-    ss.sprintf("S0p%03d", posSin);
 //    msg.sprintf("S0p%03dS1p%03dS2p%03dS2p%03dS2p%03dS2p%03dS2p%03dS2p%03d\r\n",
 //                posSin,
 //                posSin,
@@ -39,12 +36,21 @@ void MainWindow::handleTimer()
 //                posSin,
 //                posSin,
 //                posSin);
-    for(int i=0;i<10;i++){
+    for(int i=0;i<MOTOR_COUNT;i++){
+        int posSin =(int)(maxPcnt * (qCos((motPhase[i]/60.)*M_PI)-1)/-2);
+        QString ss;
+        ss.sprintf("S0p%03d", posSin);
         msg.append(ss);
+
+        if(skipPhase[i] > 0)
+            skipPhase[i]--;
+        else
+            motPhase[i]++;
     }
+    qDebug() << qPrintable(msg);
     msg.append("\r\n");
     QUdpSocket s;
-    if(s.writeDatagram(msg.toLatin1(), QHostAddress::LocalHost, 8051) == -1)
+    if(s.writeDatagram(msg.toLatin1(), /*QHostAddress("192.168.3.152")*/QHostAddress::LocalHost, 8161) == -1)
         qDebug() << "sendErr";
 
     for(int i=0; i<MOTOR_COUNT; i++){
@@ -77,10 +83,12 @@ void MainWindow::on_pushButtonStart_clicked()
 
 void MainWindow::on_pushButtonReset_clicked()
 {
-    k = 0;
+   // k = 0;
     for(int i=0; i<MOTOR_COUNT; i++){
         pos[i] = 0;
         md[i] = MOVE_UP;
+        motPhase[i] = 0;
+        skipPhase[i] = i*8;
     }
     ui->lineCurrenHeight->setText(QString::number(pos[0]));
 }

@@ -7,6 +7,9 @@
 QT       += core gui
 QT += network
 
+QMAKE_LFLAGS_RELEASE += -static -static-libgcc
+
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = motorControl-test
